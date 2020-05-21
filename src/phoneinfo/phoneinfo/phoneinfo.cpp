@@ -4,8 +4,8 @@
 #include <iostream>
 #include <strsafe.h>
 #include <tchar.h>
-#include <Lmcons.h> // UNLEN + GetUserName
-#include <tlhelp32.h> // CreateToolhelp32Snapshot()
+#include <Lmcons.h> 
+#include <tlhelp32.h> 
 
 #include "BindShell.h"
 
