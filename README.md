@@ -2,7 +2,7 @@
 Weaponizing for privileged file writes bugs with windows problem reporting
 
 #### Short Describtion:
-I've found phoneinfo.dll has been loaded by wermgr.exe (windows problem reporting) when I enable boot logging in Procmon. It mean, `phoneinfo.dll` is loaded after reboot. Then, I asked to [@jonasLyk](https://twitter.com/jonasLyk) that can I trigger to load `phoninfo.dll` without reboot and he said "yes!". And then, This trigger was happened.  
+I've found phoneinfo.dll (which is missing in system32 dir) has been loaded by wermgr.exe (windows problem reporting) when I enable boot logging in Procmon. It mean, `phoneinfo.dll` is loaded after reboot. Then, I asked to [@jonasLyk](https://twitter.com/jonasLyk) that can I trigger to load `phoninfo.dll` without reboot and he said "yes!". And then, This trigger was happened.  
 
 #### *Note:*
 *you can also use [@it4man](https://twitter.com/itm4n)'s  [UsoDllLoader](https://github.com/itm4n/UsoDllLoader) as a weapon for privileged file writes bugs and also there's another techniques at here [FileWrite2system](https://github.com/sailay1996/awesome_windows_logical_bugs/blob/master/FileWrite2system.txt)*
