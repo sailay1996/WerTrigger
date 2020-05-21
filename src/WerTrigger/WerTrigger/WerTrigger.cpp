@@ -5,6 +5,8 @@
 #include <tchar.h>
 #include "TcpClient.h"
 
+#define BUFSIZE 1024
+
 int wmain(int argc, wchar_t** argv)
 {
 
