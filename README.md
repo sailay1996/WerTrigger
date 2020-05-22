@@ -1,7 +1,7 @@
 # WerTrigger
 Weaponizing for privileged file writes bugs with windows problem reporting
 
-#### Short Describtion:
+#### Short Description:
 I've found phoneinfo.dll (which is missing in system32 dir) has been loaded by wermgr.exe (windows problem reporting) when I enable boot logging in Procmon. It mean, `phoneinfo.dll` is loaded after reboot. Then, I asked to [@jonasLyk](https://twitter.com/jonasLyk) that can I trigger to load `phoninfo.dll` without reboot and he said "yes!". And then, This trigger was happened.  
 
 #### *Note:*
